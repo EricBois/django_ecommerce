@@ -46,7 +46,10 @@ def sign_in(request):
 
 
 def sign_out(request):
-    del request.session['user']
+    try:
+        del request.session['user']
+    except KeyError:
+        pass
     return HttpResponseRedirect('/')
 
 
@@ -63,13 +66,12 @@ def register(request):
                 card=form.cleaned_data['stripe_token'],
                 plan="gold",
             )
-
-            #customer = stripe.Charge.create(
-            #    description=form.cleaned_data['email'],
-            #    card=form.cleaned_data['stripe_token'],
-            #    amount="5000",
-            #    currency="usd"
-            #)
+            # customer = stripe.Charge.create(
+            #     description=form.cleaned_data['email'],
+            #     card=form.cleaned_data['stripe_token'],
+            #     amount="5000",
+            #     currency="usd"
+            # )
 
             cd = form.cleaned_data
             try:

@@ -1,15 +1,16 @@
-import os
-
 # Django settings for django_ecommerce project.
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+import os
+import sys
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-STRIPE_SECRET = 'sk_test_CZn5nnx3tid5KxA7uojR1Vq9'
-STRIPE_PUBLISHABLE = 'pk_test_btZwMKCqwfpHduEDcCe6poJd'
-
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SITE_ROOT = os.path.dirname(PROJECT_ROOT)
+STRIPE_SECRET = 'sk_test_4QBquf6d5EzsnJC1fTI2GBGm'
+STRIPE_PUBLISHABLE = 'pk_test_4QBqqGvCk9gaNn3pl1cwxcAS'
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -19,8 +20,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'test.db',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django_db',
+        'USER': 'djangousr',
+        'PASSWORD': '4gr3m3nt',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -71,12 +76,7 @@ STATIC_ROOT = ''
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (
-    os.path.join(SITE_ROOT, 'static'),
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
+STATICFILES_DIRS = (os.path.join(SITE_ROOT, 'static'),)
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -87,7 +87,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '(5)1axly&&j$ck-#4hb$%m_i=!6a2io0l@i4bbn9&%#f740_4k'
+SECRET_KEY = '!(1ty%c5a)0l0(p)kxl2igmbobx_64hqh&tv1=+s9@!@zez4o^'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -112,9 +112,7 @@ ROOT_URLCONF = 'django_ecommerce.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'django_ecommerce.wsgi.application'
 
-TEMPLATE_DIRS = (
-    (os.path.join(SITE_ROOT, 'templates')),
-)
+TEMPLATE_DIRS = (os.path.join(SITE_ROOT, 'templates'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -124,13 +122,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'django.contrib.admin',
+    'django.contrib.flatpages',
     'contact',
     'payments',
-    'django.contrib.flatpages',
-    # Uncomment the next line to enable the admin:
-     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -163,3 +158,7 @@ LOGGING = {
         },
     }
 }
+if 'test' in sys.argv:
+        DATABASES = {
+                        'default': {'ENGINE': 'django.db.backends.sqlite3'}
+                        }
