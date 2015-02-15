@@ -26,6 +26,7 @@ DATABASES = {
         'PASSWORD': '4gr3m3nt',
         'HOST': 'localhost',
         'PORT': '5432',
+        'ATOMIC_REQUEST': True,
     }
 }
 

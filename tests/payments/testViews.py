@@ -1,6 +1,6 @@
 from payments.views import sign_in, sign_out, register, soon
 from django.test import TestCase, RequestFactory
-from payments.models import User
+from payments.models import User, UnpaidUsers
 from payments.forms import SigninForm, UserForm
 from django.db import IntegrityError
 from django.core.urlresolvers import resolve
@@ -42,7 +42,7 @@ class SignInPageTests(TestCase, ViewTesterMixin):
     @classmethod
     def setUpClass(cls):
         html = render_to_response(
-            'sign_in.html',
+            'payments/sign_in.html',
             {
                 'form': SigninForm(),
                 'user': None
@@ -78,7 +78,7 @@ class RegisterPageTests(TestCase, ViewTesterMixin):
     @classmethod
     def setUpClass(cls):
         html = render_to_response(
-            'register.html',
+            'payments/register.html',
             {
                 'form': UserForm(),
                 'months': list(range(1, 12)),
@@ -145,7 +145,7 @@ class RegisterPageTests(TestCase, ViewTesterMixin):
         users = User.objects.filter(email="python@rocks.com")
         self.assertEqual(len(users), 1)
         self.assertEqual(users[0].stripe_id, '1234')
-    
+
 
     # old test
     # def test_registering_new_user_returns_succesfully(self):
@@ -210,7 +210,7 @@ class RegisterPageTests(TestCase, ViewTesterMixin):
 
         #create the expected html
         html = render_to_response(
-            'register.html',
+            'payments/register.html',
             {
                 'form': self.get_MockUserForm(),
                 'months': list(range(1, 12)),
@@ -262,4 +262,33 @@ class RegisterPageTests(TestCase, ViewTesterMixin):
             self.assertEquals(len(users), 1)
             self.assertEquals(users[0].stripe_id, '')
 
+            unpaid = UnpaidUsers.objects.filter(email="python@pyrocks.com")
+            self.assertEquals(len(unpaid), 1)
+            self.assertIsNotNone(unpaid[0].last_notification)
 
+
+    @mock.patch('payments.models.UnpaidUsers.save',
+        side_effect=IntegrityError)
+    def test_registering_user_when_strip_is_down_all_or_nothing(self, save_mock):
+
+        self.request.session = {}
+        self.request.method = 'POST'
+        self.request.POST = {
+            'email': 'python@pyrocks.com',
+            'name': 'python',
+            'stripe_token': '...',
+            'last_4_digits': '4242',
+            'password': 'bad_password',
+            'ver_password': 'bad_password',
+        }
+
+        with mock.patch('stripe.Customer.create',
+            side_effect=socket.error("can't connect to stripe")) as stripe_mock:
+
+            resp = register(self.request)
+
+            users = User.objects.filter(email="python@pyrocks.com")
+            self.assertEquals(len(users), 0)
+
+            unpaid = UnpaidUsers.objects.filter(email="python@pyrocks.com")
+            self.assertEquals(len(unpaid), 0)

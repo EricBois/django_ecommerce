@@ -1,49 +1,60 @@
-{% extends 'base.html' %}
+{% extends '__base.html' %}
 
  {% block content %}
 
- <div class="jumbotron">
-   <img src="http://tischlerei-weissenbacher.at/img/responsive_web_design.png">
-   <h1>Please put some text here.</h1>
-   <p class="lead">If you want, you can add some text here as well. Or not.</p>
-   <a class="btn btn-large btn-success" href="/register">Register today to get started!</a><br/><br/><br/>
-   <a href="https://twitter.com/RealPython" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @RealPython</a>
-   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-   </script>
-   &nbsp;&nbsp;&nbsp;&nbsp;
-   <a href="https://twitter.com/intent/tweet?screen_name=RealPython" class="twitter-mention-button" data-size="large">Send us a Tweet to @RealPython</a>
-   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-   </script>
-   &nbsp;&nbsp;&nbsp;&nbsp;
-   <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://www.realpython.com" data-text="Django for the Non-Programmer #realpython -" data-size="large">Share!</a>
-   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-   </script>
- </div>
+  {% load static %}
+  {% load main_marketing %}
 
-<hr>
+  <center>
+  <section id ="myCarousel" class="carousel slide" data-ride="carousel" style="max-width: 960px;">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+      <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <figure class="item active">
+        <img src="{% static 'img/01.jpg' %}" alt="Paradise" style="max-height: 540px;">
+        <figcaption class="carousel-caption">
+          <h1>Join the Adventure</h1>
+          <p>For the love of mountain biking!</p>
+          <p><a class="btn btn-lg btn-primary" href="{% url 'register' %}" role="button">Sign Up Today</a></p>
+        </figcaption>
+      </figure>
+      <figure class="item">
+        <img src="{% static 'img/02.jpg' %}" alt="Scenery" style="max-height: 540px;">
+        <figcaption class="carousel-caption">
+          <h1>Share your story</h1>
+          <p>Weekly adventure, Daily chats, Monthly meetups</p>
+          <p><a class="btn btn-lg btn-primary" href="#" role="button">I'm ready to share</a></p>
+        </figcaption>
+      </figure>
+      <figure class="item">
+        <img src="{% static 'img/03.jpg' %}" alt="heaven" style="max-height: 540px;">
+        <figcaption class="carousel-caption">
+          <h1>Meet fellow Mountain Bikers</h1>
+          <p>Join adventure with people near you.</p>
+          <p><a class="btn btn-lg btn-primary" href="#" role="button">Check The Members Map</a></p>
+        </figcaption>
+      </figure>
+    </div>
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+  </section>
+</center>
+<br><br>
 
-<div class="row-fluid marketing">
-  <div class="span6">
-    <h3>(1) One</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    <h3>(2) Two</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    <h3>(3) Three</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-</div>
-
-  <div class="span6">
-    <h3>(4) Four</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    <h3>(5) Five</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    <h3>(6) Six</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut dui ac nisi vestibulum accumsan. Praesent gravida nulla vitae arcu blandit, non congue elit tempus. Suspendisse quis vestibulum diam.</p>
-    </p>
+<section class="container marketing">
+  <!--Three columns of text below the carousel -->
+  <div class="row center-text">
+    {% marketing_circle__item img_name='ericface.jpg' heading='Your Own Profile' caption='Create your own profile and share your story and exploits with others' %}
+    
+    {% marketing_circle__item img_name='discover.jpg' heading='Find New Trails' caption='Discover new area you never heard about' %}
+    
+    {% marketing_circle__item img_name='meet.jpg' heading='Make New Friends' caption='Meet new people and join them on their own adventure.' button_title='Sign Up Now' %}
   </div>
-
-</div>
+</section>
 
 {% endblock %}
+
