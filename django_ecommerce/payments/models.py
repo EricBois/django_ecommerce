@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from datetime import datetime
-
+from main.models import Badge
 
 class User(AbstractBaseUser):
     name = models.CharField(max_length=255)
@@ -11,6 +11,8 @@ class User(AbstractBaseUser):
     stripe_id = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    rank = models.CharField(max_length=50, default="Beginner")
+    badges = models.ManyToManyField(Badge)
 
     USERNAME_FIELD = 'email'
 

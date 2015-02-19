@@ -4,6 +4,8 @@ from main.views import index
 from django.shortcuts import render_to_response
 from django.test import RequestFactory
 import mock
+from main.models import MarketingItem
+from payments.models import User
 
 
 class MainPageTests(TestCase):
@@ -35,20 +37,25 @@ class MainPageTests(TestCase):
     #####################################
 
     def test_returns_exact_html(self):
+        market_items = MarketingItem.objects.all()
         resp = index(self.request)
         self.assertEqual(
             resp.content,
-            render_to_response("main/index.html").content
+            render_to_response("main/index.html",
+                {"marketing_items": market_items}).content
         )
 
     def test_index_handles_logged_in_user(self):
         # Create a session that appears to have a logged in user
         self.request.session = {"user": "1"}
 
+        u = User(email="test@user.com")
+        u.save()
+
         with mock.patch('main.views.User') as user_mock:
 
             # Tell the mock what to do when called
-            config = {'get_by_id.return_value': mock.Mock()}
+            config = {'get_by_id.return_value': u}
             user_mock.configure_mock(**config)
 
             # Run the test
@@ -57,7 +64,6 @@ class MainPageTests(TestCase):
             # Ensure we return the state of the session back to normal
             self.request.session = {}
 
-            expected_html = render_to_response(
-                'main/user.html', {'user': user_mock.get_by_id(1)}
-            )
-            self.assertEqual(resp.content, expected_html.content)
+            u.delete()
+
+            self.assertContains(resp, "Report back to base")
